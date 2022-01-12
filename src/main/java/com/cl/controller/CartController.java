@@ -80,6 +80,7 @@ public class CartController {
 	public String queryPrice(@RequestParam("min") Integer min,@RequestParam("max") Integer max,ModelMap modelMap){
 		List<Book> books = bookService.queryBookByPrice(min, max);
 		modelMap.addAttribute("bookByPage", books);
+		System.out.println("git test");
 		return "client/index";
 
 	}
