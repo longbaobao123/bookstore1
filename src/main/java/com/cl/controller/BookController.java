@@ -68,6 +68,7 @@ public class BookController{
 		int rows = bookService.deleteBookById(id);
 		//截取字符串的最后一位
 		String pageNum = referer.substring(referer.length() - 1);
+		System.out.println("wwo");
 		return "redirect:/book/bookPage/"+pageNum;
 	}
 
