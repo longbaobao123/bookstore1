@@ -81,6 +81,7 @@ public class CartController {
 		List<Book> books = bookService.queryBookByPrice(min, max);
 		modelMap.addAttribute("bookByPage", books);
 		System.out.println("git test");
+		System.out.println("hot-fix test");
 		return "client/index";
 
 	}
