@@ -82,6 +82,7 @@ public class CartController {
 		modelMap.addAttribute("bookByPage", books);
 		System.out.println("git test");
 		System.out.println("master test");
+		System.out.println("hot-fix test");
 		return "client/index";
 
 	}
