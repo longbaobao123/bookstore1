@@ -1,0 +1,235 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/static/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+<title>兴欣会员注册页面</title>
+	<!-- <%--静态包含,base标签，css样式，jQuery--%>
+<%@ include file="/pages/common/head.jsp"%> -->
+    <script type="text/javascript" th:src="@{/static/script/jquery-3.2.1.js}"></script>
+    <script type="text/javascript">
+        $(function () {
+
+            var flagUser=false;
+            var flagPwd=false;
+            var flagCpwd=false;
+            var flagEmail=false;
+            // 找到所在标签元素
+            var $user_name = $('#username');
+            var $pwd=$('#password');
+            var $cpwd=$('#cpwd');
+            var $email=$('#email');
+            var $submit=$('#sub_btn');
+            var $errorMsg=$('#errorMsg1');
+
+            // 1.如果失去焦点，则进行检查判断用户名是否合法
+            $user_name.blur(function () {
+                // 封装函数 调用函数
+                fnCheckUser()
+            });
+            function fnCheckUser() {
+                // 获取用户输入的数据
+                var vals = $user_name.val();
+                // 正则，正则验证用户输入的数据是否合法
+                var re = /^\w{6,20}$/;
+
+                if (vals == '') {
+                   var te= $errorMsg.text('用户名不能为空');
+                    flagUser=false;
+                    return
+                }
+                if (re.test(vals)) {
+                    // 合法 -- 隐藏报错信息
+                    $errorMsg.text("");
+                    flagUser=true
+                } else {
+                    // 不合法 -- 报错 -- 下面的span标签显示
+                    $errorMsg.text("用户名不合法");
+                    flagUser=false
+                }
+            }
+
+            // 2.如果密码框失去焦点，则进行检查判断密码是否合法
+            $pwd.blur(function(){
+                // 封装函数，调用函数
+                fnCheckPwd()
+            });
+            function fnCheckPwd(){
+                // 获取密码框输入的数据
+                var vals=$pwd.val();
+                // 密码正则匹配表达式
+                var rePass = /^[\w!-@#$%^&*]{6,20}$/;
+                // 如果输入框为空，则提示不能为空并return
+                if (vals==''){
+                    $errorMsg.text("密码不能为空");
+                    flagPwd=false;
+                    return
+                }
+                // 正则验证密码输入是否合法
+                if(rePass.test(vals))
+                {
+                    // 如果匹配成功，则隐藏span标签
+                    $errorMsg.text("");
+                    flagPwd=true
+                }
+                else
+                {
+                    // 如果匹配失败，则显示span标签，替换提示信息
+                    $errorMsg.text("密码不合法");
+                    flagPwd=false
+                }
+            }
+
+            // 3.判断两次输入的密码是否一致
+            $cpwd.blur(function(){
+                // 封装函数，调用函数
+                fnCheckCpwd()
+            });
+            function fnCheckCpwd(){
+                // 获取重复密码框输入的数据
+                var vals=$pwd.val();
+                var cvals=$cpwd.val();
+                if(cvals==''){
+                  $errorMsg.text("确认密码不能为空");
+                    flagCpwd=false;
+                    return
+                }
+                if (vals==cvals){
+                   $errorMsg.text("");
+                    flagCpwd=true
+                }
+                else{
+                    $errorMsg.text("两次密码不一致");
+                    flagCpwd=false;
+
+                }
+            }
+
+            // 4.如果邮箱框失去焦点，则进行检查判断邮箱是否合法
+            $email.blur(function(){
+                // 封装函数，调用函数
+                fnCheckEmail()
+            });
+            function fnCheckEmail(){
+                // 获取邮箱框输入的数据
+                var vals=$email.val();
+                // 邮箱正则匹配表达式
+                var reMail = /^[a-z0-9][\w\.\-]*@[a-z0-9\-]+(\.[a-z]{2,5}){1,2}$/i
+                // 如果输入框为空，则提示不能为空并return
+                if (vals==''){
+                    $errorMsg.text("邮箱不能为空");
+                    flagEmail=false;
+                    return
+                }
+                // 正则验证邮箱输入是否合法
+                if(reMail.test(vals))
+                {
+                    // 如果匹配成功，则隐藏span标签
+                   $errorMsg.text("");
+                    flagEmail=true
+                }
+                else
+                {
+                    // 如果匹配失败，则显示span标签，替换提示信息
+                    $errorMsg.text("邮箱格式不正确");
+                    flagEmail=false
+                }
+            }
+            // 6.所有输入框验证通过再提交注册
+            $submit.submit(function(){
+                if(flagUser && flagPwd && flagCpwd && flagEmail){
+                    alert('OK!')
+                }
+                else{
+                    alert("Not OK!");
+                    return false
+                }
+            })
+
+        })
+
+    </script>
+    <script type="text/javascript">
+        $(function () {
+            $("#code_img").click(function () {
+                this.src="http://localhost:8080/bookstore/kaptcha.jpg?"+new Date();
+            })
+        })
+    </script>
+
+
+
+
+<style type="text/css">
+	.login_form{
+		height:420px;
+		margin-top: 25px;
+	}
+</style>
+</head>
+<body>
+		<div id="login_header">
+			<img class="logo_img" alt="" th:src="@{/static/img/logo2.jpg}" >
+		</div>
+			<div class="login_banner">
+			
+				<div id="l_content">
+					<span class="login_word">欢迎注册</span>
+				</div>
+				
+				<div id="content">
+					<div class="login_form">
+						<div class="login_box">
+							<div class="tit">
+								<h1>兴欣会员</h1>
+								<span class="errorMsg" id="errorMsg1" th:text="${msg}">
+
+								</span>
+							</div>
+							<div class="form">
+								<form th:action="@{/user/regist}" method="post" onsubmit="return fnCheckSubmit()">
+									<input type="hidden" name="action" value="regist">
+									<label>用户名称：</label>
+									<input id="username" class="itxt" type="text" placeholder="请输入用户名"
+										   autocomplete="off" tabindex="1" name="username"
+										   th:value="${username}"/>
+									<br/>
+									<br/>
+									<label>用户密码：</label>
+									<input id="password" class="itxt" type="password" placeholder="请输入密码"
+										   autocomplete="off" tabindex="1" name="password" />
+									<br />
+									<br />
+									<label>确认密码：</label>
+									<input id="cpwd" class="itxt" type="password" placeholder="确认密码"
+										   autocomplete="off" tabindex="1" name="repwd" />
+									<br />
+									<br />
+									<label>电子邮件：</label>
+									<input  id="email" class="itxt" type="text" placeholder="请输入邮箱地址"
+										   autocomplete="off" tabindex="1" name="email"
+										   th:value="${email}">
+										   <!--value="%=request.getAttribute("email")==null?"":request.getAttribute("email")%" />-->
+									<br />
+									<br />
+									<label>验证码：</label>
+									<input class="itxt" type="text" style="width: 80px;" id="code" name="code"/>
+									<img  id="code_img" alt="" th:src="@{/kaptcha.jpg}" style="float: right; margin-right: 40px;width: 110px;height:30px;">
+									<br/>
+									<br />
+									<input type="submit" value="注册" id="sub_btn" class="sub_btn1"/>
+								</form>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
+		<!-- <%--静态包含，页脚信息--%>
+		<%@ include file="/pages/common/footer.jsp"%> -->
+</body>
+</html>

@@ -1,0 +1,69 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/static/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+	<!-- <%--静态包含,base标签，css样式，jQuery--%> -->
+	<!-- <%@ include file="/pages/common/head.jsp"%> -->
+<style type="text/css">
+	h1 {
+		text-align: center;
+		margin-top: 200px;
+	}
+	
+	h1 a {
+		color:red;
+	}
+	
+	input {
+		text-align: center;
+	}
+</style>
+</head>
+<body>
+		<div id="header">
+			<img class="logo_img" alt="" th:src="@{/static/img/logo2.jpg}" >
+			<span class="wel_word">编辑图书</span>
+			<!-- 静态包含 manager管理模块的菜单-->
+            <div th:replace="commons/manager_menu::#managerBar"/>
+		</div>
+		
+		<div id="main">
+			<form th:action="@{/book/updateOradd}" method="post">
+            <!--<form th:action="@{/book/add}" method="post" th:if="${returnBook==null}">-->
+                <input type="hidden" name="_method" value="put" th:if="${returnBook !=null}">
+                <!--<input type="hidden" name="pageNo" value="${param.pageNo}">-->
+                <!--<input type="hidden" name="action" value="${empty requestScope.book? "add":"update"}">-->
+                <input type="hidden" name="id" th:if="${returnBook !=null}" th:value="${returnBook.id}">
+				<table>
+					<tr>
+						<td>名称</td>
+						<td>价格</td>
+						<td>作者</td>
+						<td>销量</td>
+						<td>库存</td>
+						<td colspan="2">操作</td>
+					</tr>		
+					<tr>
+						<td><input name="name" type="text" th:value="${returnBook !=null}?${returnBook.name}"/></td>
+						<td><input name="price" type="text" th:value="${returnBook !=null}?${returnBook.price}"/></td>
+						<td><input name="author" type="text" th:value="${returnBook !=null}?${returnBook.author}"/></td>
+						<td><input name="sales" type="text" th:value="${returnBook !=null}?${returnBook.sales}"/></td>
+						<td><input name="stock" type="text" th:value="${returnBook !=null}?${returnBook.stock}"/></td>
+						<td><input type="submit" th:value="${returnBook !=null}? '修改':'添加'"/></td>
+					</tr>	
+				</table>
+			</form>
+			
+	
+		</div>
+
+		<!-- <%--静态包含，页脚信息--%> -->
+		<!-- <%@ include file="/pages/common/footer.jsp"%> -->
+</body>
+</html>

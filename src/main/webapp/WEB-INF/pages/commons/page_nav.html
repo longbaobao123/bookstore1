@@ -1,0 +1,31 @@
+<div class="modal-footer no-margin-top" id="page_bar">
+    <div class="col-md-6">
+        当前第 [[${pageInfo.pageNum}]]页,共 [[${pageInfo.pages}]] 页.一共 [[${pageInfo.total}]] 条记录
+    </div>
+
+    <ul class="pagination pull-right no-margin">
+        <li th:if="${pageInfo.hasPreviousPage}">
+            <a th:href="@{/book/bookPage/1}">首页</a>
+        </li>
+
+        <li class="prev" th:if="${pageInfo.hasPreviousPage}">
+            <a th:href="@{/book/bookPage/}+${pageInfo.prePage}">
+                <i class="glyphicon glyphicon-menu-left"></i>
+            </a>
+        </li>
+        <!--遍历条数-->
+        <li th:each="nav:${pageInfo.navigatepageNums}">
+            <a th:href="@{/book/bookPage/}+${nav}" th:text="${nav}" th:if="${nav != pageInfo.pageNum}"></a>
+            <span style="font-weight: bold;background: #6faed9;" th:if="${nav == pageInfo.pageNum}" th:text="${nav}" ></span>
+        </li>
+
+        <li class="next" th:if="${pageInfo.hasNextPage}">
+            <a th:href="@{/book/bookPage/}+${pageInfo.nextPage}">
+                <i class="glyphicon glyphicon-menu-right"></i>
+            </a>
+        </li>
+        <li>
+            <a th:href="@{/book/bookPage/}+${pageInfo.pages}">尾页</a>
+        </li>
+    </ul>
+</div>

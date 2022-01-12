@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>购物车</title>
+    <link rel="stylesheet" th:href="@{/static/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+    <script type="text/javascript" th:src="@{/static/script/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/script/jquery-3.2.1.js}"></script>
+    <script type="text/javascript">
+        $(function () {
+            $("a.deleteItemFromCart").click(function () {
+                return confirm("你确定要删除" + $(this).parent().parent().find("td:first").text() + "吗")
+
+            })
+            $("#clearCart").click(function () {
+                return confirm("你确定要清空购物车吗？");
+
+            })
+            $(".itemCountBtn").change(function () {
+                var item = $(this).parent().parent().find("td:first").text();
+                var id = $(this).attr('bookId');
+                var count = this.value;
+                if (confirm("你确定要修改【" + item + "】的数量为【" + count + "】吗")) {
+                    location.href = "http://localhost:8080/bookstore/updateCount?id=" + id + "&count=" + count;
+                } else {
+                    this.value = this.defaultValue;
+                }
+
+            });
+        });
+    </script>
+</head>
+
+<body>
+
+    <div id="header">
+        <img class="logo_img" alt="" th:src="@{/static/img/logo2.jpg}">
+        <span class="wel_word">购物车</span>
+        <div>
+            <span>欢迎<span class="um_span" th:text="${session.login.username}" th:if="${session.login !=null}"></span>光临兴欣书城</span>
+            <a th:href="@{/}">返回商城</a>
+        </div>
+    </div>
+
+
+    <div id="main">
+
+        <table>
+            <tr>
+                <td>商品名称</td>
+                <td>数量</td>
+                <td>单价</td>
+                <td>金额</td>
+                <td>操作</td>
+            </tr>
+            <tr th:if="${session.cart !=null}" th:each="entry:${session.cart.items}">
+                <td>[[${entry.value.name}]]</td>
+                <td>
+                    <input class="itemCountBtn" th:attr="bookId=${entry.value.id}" tyle="width: 30px;" type="text"
+                           th:value="${entry.value.count}">
+                </td>
+                <td>[[${entry.value.price}]]</td>
+                <td>[[${entry.value.totalPrice}]]</td>
+                <td><a class="deleteItemFromCart" th:href="@{/cart/deleteItems/}+${entry.value.id}">删除</a></td>
+            </tr>
+            <tr>
+            <td colspan="5" th:if="${session.cart.items==null }">
+                <a th:href="@{/}">亲！当前购物车为空</a>
+            </td>
+            </tr>
+        </table>
+
+            <div class="cart_info" th:if="${session.cart.items!=null}">
+                <span class="cart_span">购物车中共有<span class="b_count">[[${session.cart.totalCount}]]</span>件商品</span>
+                <span class="cart_span">总金额<span class="b_price">[[${session.cart.totalPrice}]]</span>元</span>
+                <span class="cart_span"><a id="clearCart" th:href="@{/clearItem}">清空购物车</a></span>
+                <span class="cart_span"><a th:href="@{/createOrder}">去结账</a></span>
+            </div>
+    </div>
+    <div th:replace="commons/footer::#bottom"/>
+</body>
+
+</html>

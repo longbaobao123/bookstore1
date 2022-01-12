@@ -1,0 +1,28 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="UTF-8">
+<title>结算页面</title>
+    <link rel="stylesheet" th:href="@{/static/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+    <script type="text/javascript" th:src="@{/static/script/bootstrap.min.js}"></script>
+    <script type="text/javascript" th:src="@{/static/script/jquery-3.2.1.js}"></script>
+</head>
+<body>
+	<div id="header">
+			<img class="logo_img" alt="" th:src="@{/static/img/logo2.jpg}" >
+			<span class="wel_word">结算</span>
+        <div>
+            <span>欢迎<span class="um_span" th:text="${session.login.username}" th:if="${session.login !=null}"></span>光临兴欣书城</span>
+            <a th:href="@{/myOrderPage}">我的订单</a>
+            <a th:href="@{/}">返回商城</a>
+        </div>
+	</div>
+
+	<div id="main">
+		<h1 style="margin-top: 200px;text-align: center ">你的订单已结算，订单号为:[[${session.orderId}]]</h1>
+	</div>
+    <div th:replace="commons/footer::#bottom"/>
+</body>
+</html>

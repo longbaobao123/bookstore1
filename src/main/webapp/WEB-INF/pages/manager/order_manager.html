@@ -1,0 +1,76 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="../../CSS/css_reset/reset.css">
+    <link rel="stylesheet" href="../../CSS/html-css/style.css">
+<meta charset="UTF-8">
+<title>订单管理</title>
+	<!-- <%--静态包含,base标签，css样式，jQuery--%>
+	<%@ include file="/pages/common/head.jsp"%> -->
+    <!--<%&#45;&#45;<script type="text/javascript">&#45;&#45;%>-->
+        <!--<%&#45;&#45;$(function () {&#45;&#45;%>-->
+            <!--<%&#45;&#45;$("#sendOrders").click(function () {&#45;&#45;%>-->
+                <!--<%&#45;&#45;var status=$(this).attr("status");&#45;&#45;%>-->
+                <!--<%&#45;&#45;var orderid=$(this).attr("orderid");&#45;&#45;%>-->
+                <!--<%&#45;&#45;$.getJSON("${sessionScope.base}manager/OrderServlet" ,"action=sendOrders&orderId="+orderid+"&status="+status,function (data) {&#45;&#45;%>-->
+                    <!--<%&#45;&#45;$("#sendOrders").text("已发货");&#45;&#45;%>-->
+
+                <!--<%&#45;&#45;})&#45;&#45;%>-->
+
+
+            <!--<%&#45;&#45;})&#45;&#45;%>-->
+
+        <!--<%&#45;&#45;})&#45;&#45;%>-->
+
+
+    <%--</script>--%>
+</head>
+<body>
+	
+	<div id="header">
+			<img class="logo_img" alt="" src="../../img/logo2.jpg" >
+			<span class="wel_word">订单管理系统</span>
+		<!-- <%--静态包含 manager管理模块的菜单--%>
+		<%@ include file="/pages/common/manager_menu.jsp"%> -->
+	</div>
+	
+	<div id="main">
+		<table>
+			<tr>
+				<td>日期</td>
+				<td>金额</td>
+				<td>详情</td>
+				<td>发货</td>
+				
+			</tr>
+
+            <c:forEach items="${requestScope.orders}" var="orders">
+                <tr>
+				<td>${orders.createTime}</td>
+				<td>${orders.price}</td>
+				<td><a href="/pages/">查看详情</a></td>
+                <c:if test="${orders.status==0}">
+				<td><a href="manager/orderServlet?action=sendOrders&orderId=${orders.orderId}&status=${orders.status}">点击发货</a></td>
+                </c:if>
+                    <c:if test="${sessionScope.status==1}">
+                        <td>已发货</td>
+
+                    </c:if>
+                </tr>
+
+            </c:forEach>
+
+
+			
+
+		</table>
+	</div>
+	<!-- <%--静态包含，页脚信息--%>
+	<%@ include file="/pages/common/footer.jsp"%> -->
+</body>
+</html>

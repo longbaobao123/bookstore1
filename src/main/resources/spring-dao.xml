@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd http://www.springframework.org/schema/context https://www.springframework.org/schema/context/spring-context.xsd">
+        <!--关联数据库配置文件-->
+        <context:property-placeholder location="classpath:jdbc.properties"/>
+        <!--连接池-->
+        <bean id="dataSource" class="com.mchange.v2.c3p0.ComboPooledDataSource">
+            <property name="driverClass" value="${jdbc.driver}"/>
+            <property name="jdbcUrl" value="${jdbc.url}"/>
+            <property name="user" value="${jdbc.username}"/>
+            <property name="password" value="${jdbc.password}"/>
+        </bean>
+        <!--sqlSessionFactory-->
+        <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+            <!--注入数据源-->
+            <property name="dataSource" ref="dataSource"/>
+            <!--传入pagehelper插件-->
+            <property name="plugins">
+                <array>
+                    <!--传来插件对象-->
+                    <bean class="com.github.pagehelper.PageInterceptor">
+                        <property name="properties">
+                            <props>
+                                <prop key="helpDialect">mysql</prop>
+                                <prop key="reasonable">true</prop>
+                                <prop key="support-method-arguments">true</prop>
+                                <prop key="params">countSql</prop>
+                                <prop key="params">count</prop>
+                            </props>
+                        </property>
+                    </bean>
+                </array>
+            </property>
+            <!--绑定mybatis配置文件-->
+            <property name="configLocation" value="classpath:mybatis-config.xml"/>
+        </bean>
+        <!--配置dao层接口扫描包,动态实现dao接口注入到spring容器中-->
+        <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+            <!--注入sqlSessionFactory-->
+            <property name="sqlSessionFactoryBeanName" value="sqlSessionFactory"/>
+            <!--要扫描的dao包-->
+            <property name="basePackage" value="com.cl.dao"/>
+        </bean>
+</beans>

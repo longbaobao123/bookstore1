@@ -1,0 +1,7 @@
+<div id="login_success_bar">
+    <span>欢迎<span class="um_span" th:text="${session.login.username}"></span>光临兴欣书城</span>
+    <a th:href="@{/myOrderPage}" th:if="${session.login.username !='manager001'}">我的订单</a>
+    <a th:href="@{/managerPage}" th:if="${session.login.username=='manager001'}">后台管理</a>
+    <a th:href="@{/user/loginout}">注销</a>&nbsp;&nbsp;
+    <a th:href="@{/}">返回</a>
+</div>

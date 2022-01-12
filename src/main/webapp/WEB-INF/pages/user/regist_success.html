@@ -1,0 +1,39 @@
+
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta charset="UTF-8">
+    <link rel="stylesheet" th:href="@{/static/css/reset.css}">
+    <link rel="stylesheet" th:href="@{/static/css/style.css}">
+<title>兴欣会员注册页面</title>
+	<!-- <%--静态包含,base标签，css样式，jQuery--%>
+	<%@ include file="/pages/common/head.jsp"%> -->
+<style type="text/css">
+	h1 {
+		text-align: center;
+		margin-top: 200px;
+	}
+	
+	h1 a {
+		color:red;
+	}
+</style>
+</head>
+<body>
+		<div id="header">
+				<img class="logo_img" alt="" th:src="@{/static/img/logo2.jpg}" >
+				<span class="wel_word"></span>
+			<!-- <%--静态包含，登录成功之后的菜单--%>
+			<%@ include file="/pages/common/login_success_menu.jsp"%> -->
+		</div>
+		
+		<div id="main">
+			<h1>注册成功! <a th:href="@{/user/login}">请重新登录</a></h1>
+		</div>
+		<!-- 静态包含，页脚信息-->
+		<div th:replace="commons/footer::#buttom"/>
+</body>
+</html>
